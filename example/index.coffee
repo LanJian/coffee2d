@@ -11,7 +11,7 @@ init = ->
   bg.position.y = 60
   scene.addChild bg
 
-  # Create a sprite sheet of 3 rows.
+  # Create a sprite sheet of 2 rows.
   spriteSheet = new SpriteSheet 'images/hibiki.png', [
     {length: 25, cellWidth: 67, cellHeight: 97},
     {length: 12, cellWidth: 67, cellHeight: 101}
