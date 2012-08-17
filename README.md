@@ -1,5 +1,5 @@
 Coffee2D
---------
+========
 
 Coffee2D is a HTML5 game engine that abstracts a lot of the things one would need to make a game with HTML5 canvas. It leverages some of the CoffeeScript features like the `class` keyword to integrate better with games written in CoffeeScript.
 
@@ -9,10 +9,9 @@ Coffee2D currently provides:
 * Sprite rendering
 * Event handling
 
-To get started, check out the code in the `example` folder.
+To get started, check out the code in the [example](https://github.com/LanJian/coffee2d/tree/master/example) folder.
 
-Usage
-=====
+### Usage
 
 Component is the base class for every game object. Every game object should extend Component. Game objects can override `update` and `draw` functions. Every component can add child components. Once added, the components will be automatically added to the game loop to be updated and drawn every frame:
 
