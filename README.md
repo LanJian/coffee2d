@@ -8,6 +8,7 @@ Coffee2D currently provides:
 * Simple scene graphs
 * Sprite rendering
 * Event handling
+* Isometric maps
 
 To get started, check out the code in the [example](https://github.com/LanJian/coffee2d/tree/master/example) folder.
 
