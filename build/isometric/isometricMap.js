@@ -21,7 +21,7 @@
     }
 
     IsometricMap.prototype.init = function() {
-      var cols, i, ii, index, j, jj, rows, t, x, xOffset, y, yOffset, _results;
+      var cols, i, ii, j, jj, rows, t, x, xOffset, y, yOffset, _results;
       i = 0;
       j = 0;
       ii = 0;
@@ -39,11 +39,7 @@
         console.log('-----');
         while (ii < rows && jj < cols) {
           if (ii < 0 || ii >= rows || jj < 0 || jj >= cols) break;
-          index = this.map[ii][jj];
-          t = new Tile(this.opts.spriteSheet, index);
-          console.log(ii, jj);
-          console.log(index);
-          console.log(x, y);
+          t = this.map[ii][jj];
           t.position = {
             x: x,
             y: y

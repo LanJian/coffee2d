@@ -33,11 +33,9 @@ class window.IsometricMap extends Component
         # check for out of bounds
         if ii<0 or ii>=rows or jj<0 or jj>=cols
           break
-        index = @map[ii][jj]
-        t = new Tile @opts.spriteSheet, index
-        console.log ii, jj
-        console.log index
-        console.log x, y
+        t = @map[ii][jj]
+        #console.log ii, jj
+        #console.log x, y
         t.position = {x: x, y: y}
         @addChild t
         ii-=1

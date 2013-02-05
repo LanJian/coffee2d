@@ -651,7 +651,7 @@
     }
 
     IsometricMap.prototype.init = function() {
-      var cols, i, ii, index, j, jj, rows, t, x, xOffset, y, yOffset, _results;
+      var cols, i, ii, j, jj, rows, t, x, xOffset, y, yOffset, _results;
       i = 0;
       j = 0;
       ii = 0;
@@ -669,11 +669,7 @@
         console.log('-----');
         while (ii < rows && jj < cols) {
           if (ii < 0 || ii >= rows || jj < 0 || jj >= cols) break;
-          index = this.map[ii][jj];
-          t = new Tile(this.opts.spriteSheet, index);
-          console.log(ii, jj);
-          console.log(index);
-          console.log(x, y);
+          t = this.map[ii][jj];
           t.position = {
             x: x,
             y: y
@@ -709,12 +705,27 @@
     __extends(Tile, _super);
 
     function Tile(spriteSheet, index) {
-      var rect;
+      var tile, _i, _len, _ref;
+      this.spriteSheet = spriteSheet;
       Tile.__super__.constructor.call(this);
-      this.tile = new SpriteImage(spriteSheet, index);
-      rect = new Rect(0, 0, 64, 64, 'white');
-      this.addChild(this.tile);
+      this.heightTiles = [];
+      this.baseTiles = [];
+      this.baseTiles.push(new SpriteImage(spriteSheet, index));
+      _ref = this.baseTiles;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        tile = _ref[_i];
+        this.addChild(tile);
+      }
     }
+
+    Tile.prototype.addHeightIndex = function(index) {
+      var sprite;
+      sprite = new SpriteImage(this.spriteSheet, index);
+      sprite.position.y = -this.heightTiles.length * 32;
+      console.log(sprite.position.y);
+      this.heightTiles.push(sprite);
+      return this.addChild(sprite);
+    };
 
     return Tile;
 
