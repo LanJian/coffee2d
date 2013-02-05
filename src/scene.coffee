@@ -10,7 +10,7 @@ class window.Scene extends Component
         @size.w, @size.h, @bgColor
       @addChild bg
 
-    # Listen for all js events and convert into out events
+    # Listen for all js events and convert into our events
     for type of Event.TYPES
       @canvas.addEventListener type, @onEvent.bind this
 

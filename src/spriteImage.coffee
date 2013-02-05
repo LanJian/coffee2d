@@ -1,19 +1,11 @@
+
 class window.SpriteImage extends Component
-  constructor: (filename) ->
+  constructor: (@spriteSheet, @index) ->
     super()
-    @image = new Image
-    @image.src = filename
-    @image.onload = @onImageLoaded.bind this
-    @loaded = false
-
-
-  onImageLoaded: ->
-    @loaded = true
-    @setSize @image.width, @image.height
-
 
   draw: (ctx) ->
     super ctx
-    if @loaded
-      ctx.drawImage @image, @position.x, @position.y,
-        @size.w, @size.h
+    if @spriteSheet and @spriteSheet.loaded
+      f = @spriteSheet.data[@index]
+      ctx.drawImage @spriteSheet.image, f.x, f.y, f.w, f.h,
+        @position.x, @position.y, f.w, f.h

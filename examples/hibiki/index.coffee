@@ -7,7 +7,7 @@ init = ->
   scene = new Scene canvas, 'black'
 
   # Create a background.
-  bg = new SpriteImage 'images/bg.png'
+  bg = new Coffee2D.Image 'images/bg.png'
   bg.position.y = 60
   scene.addChild bg
 
