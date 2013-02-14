@@ -9,6 +9,7 @@ class window.Component
     @listeners = []
     @keyDownHandlers = []
     @zIndex = 0
+    @boundingPolygon = null
 
     @addListener 'resize', @onResize.bind this
     @addListener 'mouseMoveScene', @onMouseMove.bind this
@@ -94,18 +95,24 @@ class window.Component
       evt.x = evt.x + child.position.x
       evt.y = evt.y + child.position.y
 
-    #if evt.type == 'click'
+    #if evt.type == 'mouseMove'
       #console.log [this, evt.target, evt.x, evt.y]
     for listener in @listeners
       if evt.type == listener.type
         listener.handler evt
 
 
+  setBoundingPolygon: (poly) ->
+    @boundingPolygon = poly
+
 
   # x and y are in local coordinates
   containsPoint: (x, y) ->
-    rect = new Rect(0, 0, @size.w, @size.h)
-    rect.isPointInside x, y
+    if @boundingPolygon == null
+      rect = new Rect(0, 0, @size.w, @size.h)
+      rect.isPointInside x, y
+    else
+      @boundingPolygon.containsPoint x, y
 
 
   update: (dt) ->

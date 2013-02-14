@@ -2,6 +2,7 @@
 class window.SpriteImage extends Component
   constructor: (@spriteSheet, @index) ->
     super()
+    @size = {w:64, h:64} #TODO hardcoded stuff
 
   draw: (ctx) ->
     super ctx

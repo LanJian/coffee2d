@@ -9,4 +9,3 @@ build:
 clean:
 	rm -f src/*.js
 	rm -rf build/*
-	find . -name *~ | xargs rm -fv

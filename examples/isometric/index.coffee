@@ -1,9 +1,18 @@
 $(document).ready ->
   init()
 
+fullSreen = (canvas) ->
+  if canvas.webkitRequestFullScreen
+    canvas.webkitRequestFullScreen()
+  else
+    canvas.mozRequestFullScreen()
+
 init = ->
   # Make a scene
   canvas = $('#canvas')[0]
+
+  $('#fs').on 'click', -> fullSreen canvas
+
   scene = new Scene canvas, 'black'
 
   # TODO: more at the end but not same size
@@ -66,15 +75,73 @@ init = ->
 
   console.log map
 
+  poly = new Polygon [[32,32], [64,48], [32,64], [0,48]]
   isoMap = new IsometricMap
-    spriteSheet : spriteSheet
-    map         : map
-    tileWidth   : 64
-    tileHeight  : 64
-    tileXOffset : 32
-    tileYOffset : 16
+    spriteSheet      : spriteSheet
+    map              : map
+    tileWidth        : 64
+    tileHeight       : 64
+    tileXOffset      : 32
+    tileYOffset      : 16
+    tileBoundingPoly : poly
 
   isoMap.position.x = 300
-  #isoMap.position.y = -200
+  console.log isoMap.position, isoMap.size
 
   scene.addChild isoMap
+
+  #charSpriteSheet = new SpriteSheet 'images/char.png', [
+    #{length: 8, cellWidth: 50, cellHeight: 50},
+    #{length: 8, cellWidth: 50, cellHeight: 50}
+    #{length: 8, cellWidth: 50, cellHeight: 50}
+    #{length: 8, cellWidth: 50, cellHeight: 50}
+    #{length: 8, cellWidth: 50, cellHeight: 50}
+    #{length: 8, cellWidth: 50, cellHeight: 50}
+    #{length: 8, cellWidth: 50, cellHeight: 50}
+    #{length: 8, cellWidth: 50, cellHeight: 50}
+  #]
+
+  #charSprite = new Sprite charSpriteSheet
+  #charSprite.addAnimation {id: 'bottomRight', row: 0, fps: 10}
+  #charSprite.play 'bottomRight'
+  #charSprite.setPosition 50, 160
+  #scene.addChild charSprite
+
+  #charSprite2 = new Sprite charSpriteSheet
+  #charSprite2.addAnimation {id: 'walk', row: 2, fps: 10}
+  #charSprite2.play 'walk'
+  #charSprite2.setPosition 150, 100
+  #scene.addChild charSprite2
+
+  charSpriteSheet = new SpriteSheet 'images/hibiki.png', [
+    {length: 25, cellWidth: 67, cellHeight: 97},
+    {length: 12, cellWidth: 67, cellHeight: 101}
+  ]
+
+  # Create a sprite from the sprite sheet, add 'idle'
+  # animation from first row of the spritesheet, and
+  # add 'walk' from second row, both at 24 frames
+  # per second.
+  sprite = new Sprite charSpriteSheet
+  sprite.addAnimation {id: 'idle', row: 0, fps: 24}
+  sprite.play 'idle'
+  sprite.setPosition 30, 150
+  sprite.setSize 30, 45
+
+  scene.addChild sprite
+
+  sprite2 = new Sprite charSpriteSheet
+  sprite2.addAnimation {id: 'idle', row: 0, fps: 24}
+  sprite2.play 'idle'
+  sprite2.setPosition 160, 120
+  sprite2.setSize 30, 45
+
+  scene.addChild sprite2
+
+  sprite3 = new Sprite charSpriteSheet
+  sprite3.addAnimation {id: 'idle', row: 0, fps: 24}
+  sprite3.play 'idle'
+  sprite3.setPosition 285, 53
+  sprite3.setSize 30, 45
+
+  scene.addChild sprite3
