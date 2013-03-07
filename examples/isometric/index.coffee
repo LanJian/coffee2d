@@ -36,7 +36,7 @@ init = ->
   for i in [0..9]
     map[i] = []
     for j in [0..9]
-      map[i][j] = new Tile spriteSheet, 1
+      map[i][j] = new Tile spriteSheet, 1, 32
 
   map[7][5].addHeightIndex 54
 
@@ -85,7 +85,7 @@ init = ->
     tileYOffset      : 16
     tileBoundingPoly : poly
 
-  isoMap.position.x = 300
+  #isoMap.position.x = 300
   console.log isoMap.position, isoMap.size
 
   scene.addChild isoMap
@@ -125,10 +125,11 @@ init = ->
   sprite = new Sprite charSpriteSheet
   sprite.addAnimation {id: 'idle', row: 0, fps: 24}
   sprite.play 'idle'
-  sprite.setPosition 30, 150
+  #sprite.setPosition 30, 150
   sprite.setSize 30, 45
 
-  scene.addChild sprite
+  isoMap.addObject(sprite, 0, 0)
+
 
   sprite2 = new Sprite charSpriteSheet
   sprite2.addAnimation {id: 'idle', row: 0, fps: 24}
@@ -136,7 +137,7 @@ init = ->
   sprite2.setPosition 160, 120
   sprite2.setSize 30, 45
 
-  scene.addChild sprite2
+  isoMap.addObject(sprite2, 1, 0)
 
   sprite3 = new Sprite charSpriteSheet
   sprite3.addAnimation {id: 'idle', row: 0, fps: 24}
@@ -144,4 +145,6 @@ init = ->
   sprite3.setPosition 285, 53
   sprite3.setSize 30, 45
 
-  scene.addChild sprite3
+  isoMap.addObject(sprite3, 2, 0)
+
+  isoMap.position.x += 100

@@ -1,6 +1,6 @@
 
 class window.Tile extends Component
-  constructor: (@spriteSheet, @index) ->
+  constructor: (@spriteSheet, @index, @heightOffset=0) ->
     super()
     @heightTiles = []
     @baseTiles = []
@@ -24,7 +24,7 @@ class window.Tile extends Component
 
   addHeightIndex: (index) ->
     sprite = new SpriteImage @spriteSheet, index
-    sprite.position.y = -@heightTiles.length*32 #TODO: hardcoded magic number
+    sprite.position.y = -@heightTiles.length*@heightOffset
     console.log sprite.position.y
     @heightTiles.push sprite
 

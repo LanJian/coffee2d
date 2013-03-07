@@ -11,8 +11,7 @@ class window.IsometricMap extends Component
     @tileYOffset      = opts.tileYOffset
     @tileBoundingPoly = opts.tileBoundingPoly
 
-    @poly = new Polygon [[-300,0], [500,0], [500,600], [-300,600]] #TODO hardcoded
-    @setBoundingPolygon @poly
+    @mapOffset = 0
 
     @tiles = []
     @init()
@@ -26,6 +25,8 @@ class window.IsometricMap extends Component
     ).bind this
 
   init: ->
+    minX = maxX = 0
+    maxY = 0
     i       = 0
     j       = 0
     ii      = 0
@@ -48,6 +49,12 @@ class window.IsometricMap extends Component
         t.position = {x: x, y: y}
         t.setBoundingPolygon @tileBoundingPoly
         @addChild t
+        if x < minX
+          minX = x
+        if x > maxX
+          maxX = x
+        if y > maxY
+          maxY = y
         ii-=1
         jj+=1
         x += @tileWidth
@@ -60,4 +67,17 @@ class window.IsometricMap extends Component
         j++
         xOffset += @tileXOffset
       yOffset += @tileYOffset
+      
+    # move the map to position
+    for row in @map
+      for t in row
+        t.position.x += (-minX)
+    @mapOffset = -minX
+    @setSize maxX-minX, maxY
 
+
+  addObject: (obj, i, j) ->
+    x = i*-@tileXOffset + j*@tileXOffset + @mapOffset
+    y = i*@tileYOffset + j*@tileYOffset
+    obj.setPosition x, y
+    @addChild obj

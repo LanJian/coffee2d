@@ -7,10 +7,11 @@
 
     __extends(Tile, _super);
 
-    function Tile(spriteSheet, index) {
+    function Tile(spriteSheet, index, heightOffset) {
       var tile, _i, _len, _ref;
       this.spriteSheet = spriteSheet;
       this.index = index;
+      this.heightOffset = heightOffset != null ? heightOffset : 0;
       Tile.__super__.constructor.call(this);
       this.heightTiles = [];
       this.baseTiles = [];
@@ -44,7 +45,7 @@
     Tile.prototype.addHeightIndex = function(index) {
       var sprite;
       sprite = new SpriteImage(this.spriteSheet, index);
-      sprite.position.y = -this.heightTiles.length * 32;
+      sprite.position.y = -this.heightTiles.length * this.heightOffset;
       console.log(sprite.position.y);
       this.heightTiles.push(sprite);
       return this.addChild(sprite);

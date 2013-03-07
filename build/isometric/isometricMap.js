@@ -17,8 +17,7 @@
       this.tileXOffset = opts.tileXOffset;
       this.tileYOffset = opts.tileYOffset;
       this.tileBoundingPoly = opts.tileBoundingPoly;
-      this.poly = new Polygon([[-300, 0], [500, 0], [500, 600], [-300, 600]]);
-      this.setBoundingPolygon(this.poly);
+      this.mapOffset = 0;
       this.tiles = [];
       this.init();
       this.addListener('tileMouseOver', (function(evt) {
@@ -47,7 +46,9 @@
     }
 
     IsometricMap.prototype.init = function() {
-      var cols, i, ii, j, jj, rows, t, x, xOffset, y, yOffset, _results;
+      var cols, i, ii, j, jj, maxX, maxY, minX, row, rows, t, x, xOffset, y, yOffset, _i, _j, _len, _len1, _ref;
+      minX = maxX = 0;
+      maxY = 0;
       i = 0;
       j = 0;
       ii = 0;
@@ -56,7 +57,6 @@
       yOffset = 0;
       rows = this.map.length;
       cols = this.map[0].length;
-      _results = [];
       while (i < rows && j < cols) {
         ii = i;
         jj = j;
@@ -74,6 +74,15 @@
           };
           t.setBoundingPolygon(this.tileBoundingPoly);
           this.addChild(t);
+          if (x < minX) {
+            minX = x;
+          }
+          if (x > maxX) {
+            maxX = x;
+          }
+          if (y > maxY) {
+            maxY = y;
+          }
           ii -= 1;
           jj += 1;
           x += this.tileWidth;
@@ -85,9 +94,26 @@
           j++;
           xOffset += this.tileXOffset;
         }
-        _results.push(yOffset += this.tileYOffset);
+        yOffset += this.tileYOffset;
       }
-      return _results;
+      _ref = this.map;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        row = _ref[_i];
+        for (_j = 0, _len1 = row.length; _j < _len1; _j++) {
+          t = row[_j];
+          t.position.x += -minX;
+        }
+      }
+      this.mapOffset = -minX;
+      return this.setSize(maxX - minX, maxY);
+    };
+
+    IsometricMap.prototype.addObject = function(obj, i, j) {
+      var x, y;
+      x = i * -this.tileXOffset + j * this.tileXOffset + this.mapOffset;
+      y = i * this.tileYOffset + j * this.tileYOffset;
+      obj.setPosition(x, y);
+      return this.addChild(obj);
     };
 
     return IsometricMap;

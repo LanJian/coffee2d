@@ -80,7 +80,7 @@
     for (i = _i = 0; _i <= 9; i = ++_i) {
       map[i] = [];
       for (j = _j = 0; _j <= 9; j = ++_j) {
-        map[i][j] = new Tile(spriteSheet, 1);
+        map[i][j] = new Tile(spriteSheet, 1, 32);
       }
     }
     map[7][5].addHeightIndex(54);
@@ -116,7 +116,6 @@
       tileYOffset: 16,
       tileBoundingPoly: poly
     });
-    isoMap.position.x = 300;
     console.log(isoMap.position, isoMap.size);
     scene.addChild(isoMap);
     charSpriteSheet = new SpriteSheet('images/hibiki.png', [
@@ -137,9 +136,8 @@
       fps: 24
     });
     sprite.play('idle');
-    sprite.setPosition(30, 150);
     sprite.setSize(30, 45);
-    scene.addChild(sprite);
+    isoMap.addObject(sprite, 0, 0);
     sprite2 = new Sprite(charSpriteSheet);
     sprite2.addAnimation({
       id: 'idle',
@@ -149,7 +147,7 @@
     sprite2.play('idle');
     sprite2.setPosition(160, 120);
     sprite2.setSize(30, 45);
-    scene.addChild(sprite2);
+    isoMap.addObject(sprite2, 1, 0);
     sprite3 = new Sprite(charSpriteSheet);
     sprite3.addAnimation({
       id: 'idle',
@@ -159,7 +157,8 @@
     sprite3.play('idle');
     sprite3.setPosition(285, 53);
     sprite3.setSize(30, 45);
-    return scene.addChild(sprite3);
+    isoMap.addObject(sprite3, 2, 0);
+    return isoMap.position.x += 100;
   };
 
 }).call(this);
