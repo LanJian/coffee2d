@@ -11,18 +11,17 @@
       IsometricMap.__super__.constructor.call(this);
       this.opts = opts;
       this.spriteSheet = opts.spriteSheet;
-      this.map = opts.map;
+      this.tiles = opts.tiles;
       this.tileWidth = opts.tileWidth;
       this.tileHeight = opts.tileHeight;
       this.tileXOffset = opts.tileXOffset;
       this.tileYOffset = opts.tileYOffset;
       this.tileBoundingPoly = opts.tileBoundingPoly;
       this.mapOffset = 0;
-      this.tiles = [];
       this.init();
       this.addListener('tileMouseOver', (function(evt) {
         var row, tile, _i, _len, _ref, _results;
-        _ref = this.map;
+        _ref = this.tiles;
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           row = _ref[_i];
@@ -55,8 +54,8 @@
       jj = 0;
       xOffset = 0;
       yOffset = 0;
-      rows = this.map.length;
-      cols = this.map[0].length;
+      rows = this.tiles.length;
+      cols = this.tiles[0].length;
       while (i < rows && j < cols) {
         ii = i;
         jj = j;
@@ -67,7 +66,7 @@
           if (ii < 0 || ii >= rows || jj < 0 || jj >= cols) {
             break;
           }
-          t = this.map[ii][jj];
+          t = this.tiles[ii][jj];
           t.position = {
             x: x,
             y: y
@@ -96,7 +95,7 @@
         }
         yOffset += this.tileYOffset;
       }
-      _ref = this.map;
+      _ref = this.tiles;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         row = _ref[_i];
         for (_j = 0, _len1 = row.length; _j < _len1; _j++) {

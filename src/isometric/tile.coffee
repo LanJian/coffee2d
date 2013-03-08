@@ -10,7 +10,6 @@ class window.Tile extends Component
     @size =  @baseTiles[0].size
 
     @addListener 'mouseMove', ((evt) ->
-      console.log 'move'
       newEvt = {type:'tileMouseOver', x:evt.x, y:evt.y}
       @dispatchEvent newEvt
     ).bind this

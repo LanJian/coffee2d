@@ -4,7 +4,7 @@ class window.IsometricMap extends Component
     # TODO: error checking
     @opts             = opts
     @spriteSheet      = opts.spriteSheet
-    @map              = opts.map
+    @tiles              = opts.tiles
     @tileWidth        = opts.tileWidth
     @tileHeight       = opts.tileHeight
     @tileXOffset      = opts.tileXOffset
@@ -13,11 +13,10 @@ class window.IsometricMap extends Component
 
     @mapOffset = 0
 
-    @tiles = []
     @init()
 
     @addListener 'tileMouseOver', ((evt) ->
-      for row in @map
+      for row in @tiles
         for tile in row
           tile.hidePoly()
           if (tile == evt.origin)
@@ -33,8 +32,8 @@ class window.IsometricMap extends Component
     jj      = 0
     xOffset = 0
     yOffset = 0
-    rows    = @map.length
-    cols    = @map[0].length
+    rows    = @tiles.length
+    cols    = @tiles[0].length
     while i<rows and j<cols
       ii = i
       jj = j
@@ -45,7 +44,7 @@ class window.IsometricMap extends Component
         # check for out of bounds
         if ii<0 or ii>=rows or jj<0 or jj>=cols
           break
-        t = @map[ii][jj]
+        t = @tiles[ii][jj]
         t.position = {x: x, y: y}
         t.setBoundingPolygon @tileBoundingPoly
         @addChild t
@@ -69,7 +68,7 @@ class window.IsometricMap extends Component
       yOffset += @tileYOffset
       
     # move the map to position
-    for row in @map
+    for row in @tiles
       for t in row
         t.position.x += (-minX)
     @mapOffset = -minX

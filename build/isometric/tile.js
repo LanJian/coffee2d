@@ -24,7 +24,6 @@
       this.size = this.baseTiles[0].size;
       this.addListener('mouseMove', (function(evt) {
         var newEvt;
-        console.log('move');
         newEvt = {
           type: 'tileMouseOver',
           x: evt.x,

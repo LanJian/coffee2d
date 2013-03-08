@@ -78,7 +78,7 @@ init = ->
   poly = new Polygon [[32,32], [64,48], [32,64], [0,48]]
   isoMap = new IsometricMap
     spriteSheet      : spriteSheet
-    map              : map
+    tiles              : map
     tileWidth        : 64
     tileHeight       : 64
     tileXOffset      : 32
