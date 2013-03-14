@@ -31,6 +31,7 @@ init = ->
   tween = null
   sprite.addListener 'click', ->
     tween = sprite.animateTo {position: {x: sprite.position.x+200}}, 3000
+    tween.onComplete ( -> sprite.animateTo {position: {x:100}}, 3000)
     console.log tween
     if sprite.isPlaying
       sprite.stop()

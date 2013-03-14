@@ -13,6 +13,10 @@ class window.Tween
      $.extend @initialProps[k], @obj[k]
 
 
+  onComplete: (func) ->
+    @onCompleteFunc = func
+
+
   update: (dt) ->
     @curTime += dt
     if @curTime > @duration
@@ -22,12 +26,15 @@ class window.Tween
     else
       @updateProps @obj, @props, @initialProps
 
-
-  updateProps: (obj, props, initProps) ->
     if @finished
       evt = {type:'tweenFinished', origin:this}
       Event.dispatchEvent evt
+      if @onCompleteFunc
+        @onCompleteFunc()
       return
+
+
+  updateProps: (obj, props, initProps) ->
     for k, v of props
       ratio = @curTime*1.0/@duration
       if $.isNumeric v

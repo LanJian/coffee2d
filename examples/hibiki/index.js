@@ -44,6 +44,13 @@
           x: sprite.position.x + 200
         }
       }, 3000);
+      tween.onComplete((function() {
+        return sprite.animateTo({
+          position: {
+            x: 100
+          }
+        }, 3000);
+      }));
       console.log(tween);
       if (sprite.isPlaying) {
         return sprite.stop();
