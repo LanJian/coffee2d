@@ -11,8 +11,20 @@ class window.Component
     @zIndex = 0
     @boundingPolygon = null
 
+    @visible = true
+
+    @tweens = []
+
     @addListener 'resize', @onResize.bind this
-    @addListener 'mouseMoveScene', @onMouseMove.bind this
+    #@addListener 'mouseMoveScene', @onMouseMove.bind this
+
+
+  show: ->
+    @visible = true
+
+
+  hide: ->
+    @visible = false
 
 
   onResize: ->
@@ -30,15 +42,16 @@ class window.Component
   Array::remove = (e) -> @[t..t] = [] if (t = @indexOf(e)) > -1
 
 
+  # TODO: this is not working
   onMouseMove: (evt) ->
-    if not @isMouseOver and @containsPoint evt.x, evt.y
-      @isMouseOver = true
-      newEvt = {type:'mouseOver', x:evt.x, y:evt.y}
-      @dispatchEvent newEvt
-    else if @isMouseOver and not @containsPoint evt.x, evt.y
-      @isMouseOver = false
-      newEvt = {type:'mouseOut', x:evt.x, y:evt.y}
-      @dispatchEvent newEvt
+    #if not @isMouseOver and @containsPoint evt.x, evt.y
+      #@isMouseOver = true
+      #newEvt = {type:'mouseOver', x:evt.x, y:evt.y}
+      #@dispatchEvent newEvt
+    #else if @isMouseOver and not @containsPoint evt.x, evt.y
+      #@isMouseOver = false
+      #newEvt = {type:'mouseOut', x:evt.x, y:evt.y}
+      #@dispatchEvent newEvt
 
 
   addChild: (child) ->
@@ -115,15 +128,28 @@ class window.Component
       @boundingPolygon.containsPoint x, y
 
 
+  animateTo: (props, duration) ->
+    tween = new Tween this, props, duration
+    @tweens.push tween
+
+
   update: (dt) ->
     for k in @keyDownHandlers
       if Event.isKeyDown k.which
         k.handler()
+
+    toRemove = []
+    for t in @tweens
+      if t.finished then toRemove.push t
+    for t in toRemove
+      @tweens.remove t
+
     child.update dt for child in @children
 
 
   draw: (ctx) ->
     ctx.save()
     ctx.translate @position.x, @position.y
-    child.draw ctx for child in @children
+    for child in @children
+      if child.visible then child.draw ctx
     ctx.restore()

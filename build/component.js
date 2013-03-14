@@ -31,9 +31,18 @@
       this.keyDownHandlers = [];
       this.zIndex = 0;
       this.boundingPolygon = null;
+      this.visible = true;
+      this.tweens = [];
       this.addListener('resize', this.onResize.bind(this));
-      this.addListener('mouseMoveScene', this.onMouseMove.bind(this));
     }
+
+    Component.prototype.show = function() {
+      return this.visible = true;
+    };
+
+    Component.prototype.hide = function() {
+      return this.visible = false;
+    };
 
     Component.prototype.onResize = function() {
       var c, ch, cw, h, w, _i, _len, _ref;
@@ -64,26 +73,7 @@
       }
     };
 
-    Component.prototype.onMouseMove = function(evt) {
-      var newEvt;
-      if (!this.isMouseOver && this.containsPoint(evt.x, evt.y)) {
-        this.isMouseOver = true;
-        newEvt = {
-          type: 'mouseOver',
-          x: evt.x,
-          y: evt.y
-        };
-        return this.dispatchEvent(newEvt);
-      } else if (this.isMouseOver && !this.containsPoint(evt.x, evt.y)) {
-        this.isMouseOver = false;
-        newEvt = {
-          type: 'mouseOut',
-          x: evt.x,
-          y: evt.y
-        };
-        return this.dispatchEvent(newEvt);
-      }
-    };
+    Component.prototype.onMouseMove = function(evt) {};
 
     Component.prototype.addChild = function(child) {
       return this.children.push(child);
@@ -182,8 +172,14 @@
       }
     };
 
+    Component.prototype.animateTo = function(props, duration) {
+      var tween;
+      tween = new Tween(this, props, duration);
+      return this.tweens.push(tween);
+    };
+
     Component.prototype.update = function(dt) {
-      var child, k, _i, _j, _len, _len1, _ref, _ref1, _results;
+      var child, k, t, toRemove, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _results;
       _ref = this.keyDownHandlers;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         k = _ref[_i];
@@ -191,10 +187,22 @@
           k.handler();
         }
       }
-      _ref1 = this.children;
-      _results = [];
+      toRemove = [];
+      _ref1 = this.tweens;
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        child = _ref1[_j];
+        t = _ref1[_j];
+        if (t.finished) {
+          toRemove.push(t);
+        }
+      }
+      for (_k = 0, _len2 = toRemove.length; _k < _len2; _k++) {
+        t = toRemove[_k];
+        this.tweens.remove(t);
+      }
+      _ref2 = this.children;
+      _results = [];
+      for (_l = 0, _len3 = _ref2.length; _l < _len3; _l++) {
+        child = _ref2[_l];
         _results.push(child.update(dt));
       }
       return _results;
@@ -207,7 +215,9 @@
       _ref = this.children;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         child = _ref[_i];
-        child.draw(ctx);
+        if (child.visible) {
+          child.draw(ctx);
+        }
       }
       return ctx.restore();
     };

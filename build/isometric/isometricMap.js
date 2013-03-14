@@ -19,33 +19,65 @@
       this.tileBoundingPoly = opts.tileBoundingPoly;
       this.mapOffset = 0;
       this.init();
-      this.addListener('tileMouseOver', (function(evt) {
-        var row, tile, _i, _len, _ref, _results;
-        _ref = this.tiles;
+      this.addListener('mouseMove', (function(evt) {
+        var i, j, row, tile, x, y, _i, _ref, _results;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          row = _ref[_i];
+        for (i = _i = 0, _ref = this.tiles.length - 1; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+          row = this.tiles[i];
           _results.push((function() {
-            var _j, _len1, _results1;
+            var _j, _ref1, _results1;
             _results1 = [];
-            for (_j = 0, _len1 = row.length; _j < _len1; _j++) {
-              tile = row[_j];
-              tile.hidePoly();
-              if (tile === evt.origin) {
+            for (j = _j = 0, _ref1 = row.length - 1; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; j = 0 <= _ref1 ? ++_j : --_j) {
+              tile = row[j];
+              x = i * -this.tileXOffset + j * this.tileXOffset + this.mapOffset;
+              y = i * this.tileYOffset + j * this.tileYOffset;
+              if (tile.containsPoint(evt.x - x + 1, evt.y - y + 1)) {
                 _results1.push(tile.showPoly());
               } else {
-                _results1.push(void 0);
+                _results1.push(tile.hidePoly());
               }
             }
             return _results1;
-          })());
+          }).call(this));
         }
         return _results;
       }).bind(this));
     }
 
+    IsometricMap.prototype.handle = function(evt) {
+      var child, listener, _i, _j, _len, _len1, _ref, _ref1, _results;
+      if (Event.isMouseEvent(evt)) {
+        if (!this.containsPoint(evt.x, evt.y)) {
+          return;
+        }
+        evt.target = this;
+      }
+      if (evt.type === 'click') {
+        _ref = this.children;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          child = _ref[_i];
+          evt.x = evt.x - child.position.x;
+          evt.y = evt.y - child.position.y;
+          child.handle(evt);
+          evt.x = evt.x + child.position.x;
+          evt.y = evt.y + child.position.y;
+        }
+      }
+      _ref1 = this.listeners;
+      _results = [];
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        listener = _ref1[_j];
+        if (evt.type === listener.type) {
+          _results.push(listener.handler(evt));
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
+    };
+
     IsometricMap.prototype.init = function() {
-      var cols, i, ii, j, jj, maxX, maxY, minX, row, rows, t, x, xOffset, y, yOffset, _i, _j, _len, _len1, _ref;
+      var cols, i, ii, j, jj, maxX, maxY, minX, poly, row, rows, t, x, xOffset, y, yOffset, _i, _j, _len, _len1, _ref;
       minX = maxX = 0;
       maxY = 0;
       i = 0;
@@ -61,7 +93,6 @@
         jj = j;
         x = xOffset;
         y = yOffset;
-        console.log('-----');
         while (ii < rows && jj < cols) {
           if (ii < 0 || ii >= rows || jj < 0 || jj >= cols) {
             break;
@@ -71,7 +102,10 @@
             x: x,
             y: y
           };
-          t.setBoundingPolygon(this.tileBoundingPoly);
+          poly = {};
+          $.extend(poly, this.tileBoundingPoly);
+          t.setBoundingPolygon(poly);
+          t.setup();
           this.addChild(t);
           if (x < minX) {
             minX = x;

@@ -19,6 +19,9 @@
 
     Image.prototype.onImageLoaded = function() {
       this.loaded = true;
+      if (this.size.w !== 0 || this.size.h !== 0) {
+        return;
+      }
       return this.setSize(this.image.width, this.image.height);
     };
 

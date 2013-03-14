@@ -29,6 +29,7 @@ init = ->
 
   # Add a mouse click listener to stop the animation
   sprite.addListener 'click', ->
+    sprite.animateTo {position: {x: sprite.position.x+200}}, 3000
     if sprite.isPlaying
       sprite.stop()
     else
@@ -46,3 +47,13 @@ init = ->
     sprite.play 'walk'
   scene.addListener 'keyUp', ->
     sprite.play 'idle'
+
+
+  a = {foo: {bar: 2, barr: 3}}
+  b = {foo: {bar: 5}}
+  console.log a
+  for k, v of b
+    console.log v
+    $.extend true, a[k], v
+
+  console.log a

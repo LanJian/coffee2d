@@ -11,6 +11,8 @@ class window.Coffee2D.Image extends Component
 
   onImageLoaded: ->
     @loaded = true
+    if @size.w != 0 or @size.h != 0
+      return
     @setSize @image.width, @image.height
 
 

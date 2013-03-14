@@ -22,23 +22,19 @@
         this.addChild(tile);
       }
       this.size = this.baseTiles[0].size;
-      this.addListener('mouseMove', (function(evt) {
-        var newEvt;
-        newEvt = {
-          type: 'tileMouseOver',
-          x: evt.x,
-          y: evt.y
-        };
-        return this.dispatchEvent(newEvt);
-      }).bind(this));
     }
 
+    Tile.prototype.setup = function() {
+      this.addChild(this.boundingPolygon);
+      return this.boundingPolygon.hide();
+    };
+
     Tile.prototype.hidePoly = function() {
-      return this.removeChild(this.boundingPolygon);
+      return this.boundingPolygon.hide();
     };
 
     Tile.prototype.showPoly = function() {
-      return this.children.splice(1, 0, this.boundingPolygon);
+      return this.boundingPolygon.show();
     };
 
     Tile.prototype.addHeightIndex = function(index) {

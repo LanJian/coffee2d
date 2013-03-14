@@ -15,13 +15,56 @@ class window.IsometricMap extends Component
 
     @init()
 
-    @addListener 'tileMouseOver', ((evt) ->
-      for row in @tiles
-        for tile in row
-          tile.hidePoly()
-          if (tile == evt.origin)
+    @addListener 'mouseMove', ((evt) ->
+      #ox = @tileXOffset
+      #oy = @tileYOffset
+      #om = @mapOffset
+
+      #x = evt.x - (evt.x%ox)
+      #y = evt.y - (evt.y%oy)
+
+      #j = (y/oy - (om - x)/ox)/2
+      #i = j + (om - x)/ox
+
+      #i = (Math.floor i)
+      #j = (Math.floor j)
+
+
+      #@tiles[i][j].showPoly()
+
+      for i in [0...@tiles.length-1]
+        row = @tiles[i]
+        for j in [0...row.length-1]
+          tile = row[j]
+          x = i*-@tileXOffset + j*@tileXOffset + @mapOffset
+          y = i*@tileYOffset + j*@tileYOffset
+          if tile.containsPoint evt.x-x+1, evt.y-y+1
             tile.showPoly()
+          else
+            tile.hidePoly()
     ).bind this
+
+
+  # Override
+  handle: (evt) ->
+    if Event.isMouseEvent evt
+      if not @containsPoint evt.x, evt.y
+        return
+      evt.target = this
+
+    if evt.type == 'click'
+      for child in @children
+        # transform event coordinates
+        evt.x = evt.x - child.position.x
+        evt.y = evt.y - child.position.y
+        child.handle evt
+        # untransform event coordinates
+        evt.x = evt.x + child.position.x
+        evt.y = evt.y + child.position.y
+
+    for listener in @listeners
+      if evt.type == listener.type
+        listener.handler evt
 
   init: ->
     minX = maxX = 0
@@ -39,14 +82,16 @@ class window.IsometricMap extends Component
       jj = j
       x = xOffset
       y = yOffset
-      console.log '-----'
       while ii<rows and jj<cols
         # check for out of bounds
         if ii<0 or ii>=rows or jj<0 or jj>=cols
           break
         t = @tiles[ii][jj]
         t.position = {x: x, y: y}
-        t.setBoundingPolygon @tileBoundingPoly
+        poly = {}
+        $.extend poly, @tileBoundingPoly
+        t.setBoundingPolygon poly
+        t.setup()
         @addChild t
         if x < minX
           minX = x

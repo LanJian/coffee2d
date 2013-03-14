@@ -9,16 +9,24 @@ class window.Tile extends Component
     @addChild tile for tile in @baseTiles
     @size =  @baseTiles[0].size
 
-    @addListener 'mouseMove', ((evt) ->
-      newEvt = {type:'tileMouseOver', x:evt.x, y:evt.y}
-      @dispatchEvent newEvt
-    ).bind this
+    #@addListener 'mouseOver', ((evt) ->
+      ##newEvt = {type:'tileMouseOver', x:evt.x, y:evt.y}
+      ##@dispatchEvent newEvt
+      #console.log 'sup'
+    #).bind this
+
+  setup: ->
+    @addChild @boundingPolygon
+    @boundingPolygon.hide()
+
+  #handle: (evt) ->
+    ## do nothing
 
   hidePoly: ->
-    @removeChild @boundingPolygon
+    @boundingPolygon.hide()
 
   showPoly: ->
-    @children.splice 1, 0, @boundingPolygon
+    @boundingPolygon.show()
 
 
   addHeightIndex: (index) ->
@@ -28,3 +36,4 @@ class window.Tile extends Component
     @heightTiles.push sprite
 
     @addChild sprite
+
