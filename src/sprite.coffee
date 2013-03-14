@@ -24,7 +24,7 @@ class window.Sprite extends Component
       return
 
     # Set size
-    if w != 0 or h != 0
+    if @size.w != 0 or @size.h != 0
       return
     w = h = 0
     for key, spr of @spriteSheets

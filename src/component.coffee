@@ -108,8 +108,6 @@ class window.Component
       evt.x = evt.x + child.position.x
       evt.y = evt.y + child.position.y
 
-    #if evt.type == 'mouseMove'
-      #console.log [this, evt.target, evt.x, evt.y]
     for listener in @listeners
       if evt.type == listener.type
         listener.handler evt
@@ -131,6 +129,7 @@ class window.Component
   animateTo: (props, duration) ->
     tween = new Tween this, props, duration
     @tweens.push tween
+    console.log @tweens
 
 
   update: (dt) ->
@@ -140,6 +139,7 @@ class window.Component
 
     toRemove = []
     for t in @tweens
+      t.update dt
       if t.finished then toRemove.push t
     for t in toRemove
       @tweens.remove t

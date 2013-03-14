@@ -29,7 +29,7 @@ init = ->
 
   # Add a mouse click listener to stop the animation
   sprite.addListener 'click', ->
-    sprite.animateTo {position: {x: sprite.position.x+200}}, 3000
+    #sprite.animateTo {position: {x: sprite.position.x+200}}, 3000
     if sprite.isPlaying
       sprite.stop()
     else

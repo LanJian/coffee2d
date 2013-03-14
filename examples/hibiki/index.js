@@ -38,11 +38,6 @@
     sprite.play('idle');
     sprite.setPosition(100, 270);
     sprite.addListener('click', function() {
-      sprite.animateTo({
-        position: {
-          x: sprite.position.x + 200
-        }
-      }, 3000);
       if (sprite.isPlaying) {
         return sprite.stop();
       } else {
