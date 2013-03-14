@@ -8,26 +8,28 @@ class window.Tween
 
 
   init: ->
-   for k, v in @props
-     @initialProps[k] = @obj[k]
+   for k, v of @props
+     @initialProps[k] = {}
+     $.extend @initialProps[k], @obj[k]
 
 
   update: (dt) ->
     @curTime += dt
-    if @curTime > duration
+    if @curTime > @duration
       @finished = true
     @updateProps @obj, @props, @initialProps
 
 
   updateProps: (obj, props, initProps) ->
-    console.log 'update Tween'
     if @finished
+      evt = {type:'tweenFinished', origin:this}
+      Event.dispatchEvent evt
       return
-    for k, v in props
+    for k, v of props
       ratio = @curTime*1.0/@duration
       if $.isNumeric v
         initialValue = initProps[k]
-        obj[k] = ratio*(v-initialValue)
+        obj[k] = initialValue + ratio*(v-initialValue)
       else
         @updateProps obj[k], props[k], initProps[k]
 

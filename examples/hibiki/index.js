@@ -7,7 +7,7 @@
   });
 
   init = function() {
-    var a, b, bg, canvas, k, scene, sprite, spriteSheet, v;
+    var a, b, bg, canvas, k, scene, sprite, spriteSheet, tween, v;
     canvas = $('#canvas')[0];
     scene = new Scene(canvas, 'black');
     bg = new Coffee2D.Image('images/bg.png');
@@ -37,12 +37,23 @@
     });
     sprite.play('idle');
     sprite.setPosition(100, 270);
+    tween = null;
     sprite.addListener('click', function() {
+      tween = sprite.animateTo({
+        position: {
+          x: sprite.position.x + 200
+        }
+      }, 3000);
+      console.log(tween);
       if (sprite.isPlaying) {
         return sprite.stop();
       } else {
         return sprite.play();
       }
+    });
+    sprite.addListener('tweenFinished', function(evt) {
+      console.log(evt.origin);
+      return console.log(evt.origin === tween);
     });
     scene.addChild(sprite);
     scene.onKeyDown(37, function() {

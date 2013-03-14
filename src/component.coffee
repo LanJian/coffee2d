@@ -129,7 +129,7 @@ class window.Component
   animateTo: (props, duration) ->
     tween = new Tween this, props, duration
     @tweens.push tween
-    console.log @tweens
+    return tween
 
 
   update: (dt) ->

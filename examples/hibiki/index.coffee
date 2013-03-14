@@ -28,12 +28,18 @@ init = ->
   sprite.setPosition 100, 270
 
   # Add a mouse click listener to stop the animation
+  tween = null
   sprite.addListener 'click', ->
-    #sprite.animateTo {position: {x: sprite.position.x+200}}, 3000
+    tween = sprite.animateTo {position: {x: sprite.position.x+200}}, 3000
+    console.log tween
     if sprite.isPlaying
       sprite.stop()
     else
       sprite.play()
+
+  sprite.addListener 'tweenFinished', (evt) ->
+    console.log evt.origin
+    console.log (evt.origin == tween)
 
   # Add sprite to the scene
   scene.addChild sprite
