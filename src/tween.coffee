@@ -16,8 +16,11 @@ class window.Tween
   update: (dt) ->
     @curTime += dt
     if @curTime > @duration
+      @curTime = @duration
+      @updateProps @obj, @props, @initialProps
       @finished = true
-    @updateProps @obj, @props, @initialProps
+    else
+      @updateProps @obj, @props, @initialProps
 
 
   updateProps: (obj, props, initProps) ->
