@@ -34,7 +34,7 @@ class window.Rect extends Component
     super ctx
 
 class window.Polygon extends Component
-  constructor: (@points) ->
+  constructor: (@points, @color='black') ->
     super 0, 0, 100, 100
     @lineSegs = []
     for i in [0..@points.length-1]
@@ -61,7 +61,7 @@ class window.Polygon extends Component
   draw: (ctx) ->
     ctx.save()
     ctx.translate @position.x, @position.y
-    ctx.fillStyle = 'rgba(50,20,240,0.4)'
+    ctx.fillStyle = @color
     ctx.beginPath()
     p = @points[0]
     ctx.moveTo p[0], p[1]

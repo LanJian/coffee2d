@@ -96,21 +96,28 @@ class window.Component
   handle: (evt) ->
     if Event.isMouseEvent evt
       if not @containsPoint evt.x, evt.y
-        return
+        return false
       evt.target = this
 
-    for child in @children
-      # transform event coordinates
-      evt.x = evt.x - child.position.x
-      evt.y = evt.y - child.position.y
-      child.handle evt
-      # untransform event coordinates
-      evt.x = evt.x + child.position.x
-      evt.y = evt.y + child.position.y
+    if @children.length >= 0
+      for i in [@children.length-1..0] by -1
+        child = @children[i]
+        # transform event coordinates
+        evt.x = evt.x - child.position.x
+        evt.y = evt.y - child.position.y
+        isHandled = child.handle evt
+        # untransform event coordinates
+        evt.x = evt.x + child.position.x
+        evt.y = evt.y + child.position.y
+        if (Event.isMouseEvent evt) and isHandled
+          return true
 
+    isHandled = false
     for listener in @listeners
       if evt.type == listener.type
+        isHandled = true
         listener.handler evt
+    return isHandled
 
 
   setBoundingPolygon: (poly) ->
