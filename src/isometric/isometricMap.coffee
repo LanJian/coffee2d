@@ -11,6 +11,8 @@ class window.IsometricMap extends Component
     @tileYOffset      = opts.tileYOffset
     @tileBoundingPoly = opts.tileBoundingPoly
 
+    @objLayer = []
+
     @mapOffset = 0
 
     @init()
@@ -74,4 +76,39 @@ class window.IsometricMap extends Component
     x = i*-@tileXOffset + j*@tileXOffset + @mapOffset
     y = i*@tileYOffset + j*@tileYOffset
     obj.setPosition x, y
-    @addChild obj
+    @objLayer.push obj
+    #@objLayer.sort ((a, b) ->
+      #a.position.y - b.position.y
+    #)
+    #console.log @objLayer
+
+  # Overriden functions
+  update: (dt) ->
+    for k in @keyDownHandlers
+      if Event.isKeyDown k.which
+        k.handler()
+
+    toRemove = []
+    for t in @tweens
+      t.update dt
+      if t.finished then toRemove.push t
+    for t in toRemove
+      @tweens.remove t
+
+    child.update dt for child in @children
+    obj.update dt for obj in @objLayer
+
+  #draw: (ctx) ->
+    #ctx.save()
+    #ctx.translate @position.x, @position.y
+    #for child in @children
+      #if child.visible then child.draw ctx
+
+    #@objLayer.sort ((a, b) ->
+      #a.position.y - b.position.y
+    #)
+    ##console.log @objLayer
+    #for obj in @objLayer
+      #if obj.visible then obj.draw ctx
+
+    #ctx.restore()

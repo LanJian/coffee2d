@@ -7,6 +7,7 @@ class window.Component
     @isMouseOver = false
     @children = []
     @listeners = []
+    @listenersToRemove = []
     @keyDownHandlers = []
     @zIndex = 0
     @boundingPolygon = null
@@ -67,6 +68,10 @@ class window.Component
       type: type
       handler: handler
     )
+    return @listeners[@listeners.length-1]
+
+  removeListener: (listenerToRemove) ->
+    @listenersToRemove.push listenerToRemove
 
 
   dispatchEvent: (evt) ->
@@ -150,6 +155,9 @@ class window.Component
       if t.finished then toRemove.push t
     for t in toRemove
       @tweens.remove t
+
+    for l in @listenersToRemove
+      @listeners.remove l
 
     child.update dt for child in @children
 

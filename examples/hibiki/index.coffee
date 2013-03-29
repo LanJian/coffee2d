@@ -22,9 +22,9 @@ init = ->
   # add 'walk' from second row, both at 24 frames
   # per second.
   sprite = new Sprite spriteSheet
-  sprite.addAnimation {id: 'idle', row: 0, fps: 24}
+  sprite.addAnimation {id: 'idle', row: 0, fps: 1}
   sprite.addAnimation {id: 'walk', row: 1, fps: 24}
-  sprite.play 'idle'
+  sprite.playOnce 'walk'
   sprite.setPosition 100, 270
 
   # Add a mouse click listener to stop the animation
@@ -53,7 +53,7 @@ init = ->
     sprite.position.x += 1
     sprite.play 'walk'
   scene.addListener 'keyUp', ->
-    sprite.play 'idle'
+    sprite.playOnce 'idle'
 
 
   a = {foo: {bar: 2, barr: 3}}

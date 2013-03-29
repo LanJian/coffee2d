@@ -15,12 +15,7 @@ class window.Sprite extends Component
 
 
   onSpriteImageLoaded: (evt) ->
-    found = false
-    for key, val of @spriteSheets
-      if val == evt.target
-        found = true
-        break
-    if not found
+    if not (@hasSpriteSheet evt.target)
       return
 
     # Set size
@@ -34,6 +29,13 @@ class window.Sprite extends Component
         if f.h > h
           h = f.h
     @setSize w, h
+
+
+  hasSpriteSheet: (ss) ->
+    for key, val of @spriteSheets
+      if val == ss
+        return true
+    return false
 
 
   addSpriteSheet: (id, spriteSheet) ->
@@ -92,7 +94,14 @@ class window.Sprite extends Component
 
 
   stop: ->
+    console.log 'stop anim'
     @isPlaying = false
+    evt =
+      type: 'spriteStopAnim'
+      origin: this
+      target: this
+      animId: @playingAnimation
+    @dispatchEvent evt
 
 
   update: (dt) ->
@@ -104,7 +113,7 @@ class window.Sprite extends Component
       @curInterval += dt
       if @curInterval >= anim.frameInterval
         @frameIndex++
-        if (@frameIndex >= anim.duration) and not @loop
+        if (@frameIndex >= anim.startFrame + anim.duration) and not @loop
           @stop()
         @frameIndex = anim.startFrame + (@frameIndex - anim.startFrame) % anim.duration
         @curInterval = @curInterval % anim.frameInterval

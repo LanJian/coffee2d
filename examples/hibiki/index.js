@@ -28,14 +28,14 @@
     sprite.addAnimation({
       id: 'idle',
       row: 0,
-      fps: 24
+      fps: 1
     });
     sprite.addAnimation({
       id: 'walk',
       row: 1,
       fps: 24
     });
-    sprite.play('idle');
+    sprite.playOnce('walk');
     sprite.setPosition(100, 270);
     tween = null;
     sprite.addListener('click', function() {
@@ -72,7 +72,7 @@
       return sprite.play('walk');
     });
     scene.addListener('keyUp', function() {
-      return sprite.play('idle');
+      return sprite.playOnce('idle');
     });
     a = {
       foo: {
