@@ -7,7 +7,7 @@
   });
 
   init = function() {
-    var a, b, bg, canvas, k, scene, sprite, spriteSheet, tween, v;
+    var bg, canvas, scene, sprite, spriteSheet;
     canvas = $('#canvas')[0];
     scene = new Scene(canvas, 'black');
     bg = new Coffee2D.Image('images/bg.png');
@@ -28,39 +28,21 @@
     sprite.addAnimation({
       id: 'idle',
       row: 0,
-      fps: 1
+      fps: 18
     });
     sprite.addAnimation({
       id: 'walk',
       row: 1,
       fps: 24
     });
-    sprite.playOnce('walk');
+    sprite.play('idle');
     sprite.setPosition(100, 270);
-    tween = null;
     sprite.addListener('click', function() {
-      tween = sprite.animateTo({
-        position: {
-          x: sprite.position.x + 200
-        }
-      }, 3000);
-      tween.onComplete((function() {
-        return sprite.animateTo({
-          position: {
-            x: 100
-          }
-        }, 3000);
-      }));
-      console.log(tween);
       if (sprite.isPlaying) {
         return sprite.stop();
       } else {
         return sprite.play();
       }
-    });
-    sprite.addListener('tweenFinished', function(evt) {
-      console.log(evt.origin);
-      return console.log(evt.origin === tween);
     });
     scene.addChild(sprite);
     scene.onKeyDown(37, function() {
@@ -71,27 +53,9 @@
       sprite.position.x += 1;
       return sprite.play('walk');
     });
-    scene.addListener('keyUp', function() {
-      return sprite.playOnce('idle');
+    return scene.addListener('keyUp', function() {
+      return sprite.play('idle');
     });
-    a = {
-      foo: {
-        bar: 2,
-        barr: 3
-      }
-    };
-    b = {
-      foo: {
-        bar: 5
-      }
-    };
-    console.log(a);
-    for (k in b) {
-      v = b[k];
-      console.log(v);
-      $.extend(true, a[k], v);
-    }
-    return console.log(a);
   };
 
 }).call(this);

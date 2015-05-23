@@ -15,21 +15,20 @@ init = ->
 
   scene = new Scene canvas, 'black'
 
-  # TODO: more at the end but not same size
   spriteSheet = new SpriteSheet 'images/tileset.png', [
-    {length: 10  , cellWidth: 64 , cellHeight: 64} ,
-    {length: 10  , cellWidth: 64 , cellHeight: 64} ,
-    {length: 10  , cellWidth: 64 , cellHeight: 64} ,
-    {length: 10  , cellWidth: 64 , cellHeight: 64} ,
-    {length: 10  , cellWidth: 64 , cellHeight: 64} ,
-    {length: 10 , cellWidth: 64 , cellHeight: 64} ,
-    {length: 10 , cellWidth: 64 , cellHeight: 64} ,
-    {length: 10 , cellWidth: 64 , cellHeight: 64} ,
-    {length: 10 , cellWidth: 64 , cellHeight: 64} ,
-    {length: 10 , cellWidth: 64 , cellHeight: 64} ,
-    {length: 10  , cellWidth: 64 , cellHeight: 64} ,
-    {length: 10 , cellWidth: 64 , cellHeight: 64},
-    {length: 10 , cellWidth: 64 , cellHeight: 64}
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64},
+    {length: 10, cellWidth: 64, cellHeight: 64}
   ]
 
   map = []
@@ -73,45 +72,17 @@ init = ->
   map[8][2].addHeightIndex 120
   map[1][7].addHeightIndex 121
 
-  console.log map
-
   poly = new Polygon [[32,32], [64,48], [32,64], [0,48]]
   isoMap = new IsometricMap
     spriteSheet      : spriteSheet
-    tiles              : map
+    tiles            : map
     tileWidth        : 64
     tileHeight       : 64
     tileXOffset      : 32
     tileYOffset      : 16
     tileBoundingPoly : poly
 
-  #isoMap.position.x = 300
-  console.log isoMap.position, isoMap.size
-
   scene.addChild isoMap
-
-  #charSpriteSheet = new SpriteSheet 'images/char.png', [
-    #{length: 8, cellWidth: 50, cellHeight: 50},
-    #{length: 8, cellWidth: 50, cellHeight: 50}
-    #{length: 8, cellWidth: 50, cellHeight: 50}
-    #{length: 8, cellWidth: 50, cellHeight: 50}
-    #{length: 8, cellWidth: 50, cellHeight: 50}
-    #{length: 8, cellWidth: 50, cellHeight: 50}
-    #{length: 8, cellWidth: 50, cellHeight: 50}
-    #{length: 8, cellWidth: 50, cellHeight: 50}
-  #]
-
-  #charSprite = new Sprite charSpriteSheet
-  #charSprite.addAnimation {id: 'bottomRight', row: 0, fps: 10}
-  #charSprite.play 'bottomRight'
-  #charSprite.setPosition 50, 160
-  #scene.addChild charSprite
-
-  #charSprite2 = new Sprite charSpriteSheet
-  #charSprite2.addAnimation {id: 'walk', row: 2, fps: 10}
-  #charSprite2.play 'walk'
-  #charSprite2.setPosition 150, 100
-  #scene.addChild charSprite2
 
   charSpriteSheet = new SpriteSheet 'images/hibiki.png', [
     {length: 25, cellWidth: 67, cellHeight: 97},
@@ -125,26 +96,30 @@ init = ->
   sprite = new Sprite charSpriteSheet
   sprite.addAnimation {id: 'idle', row: 0, fps: 24}
   sprite.play 'idle'
-  #sprite.setPosition 30, 150
   sprite.setSize 30, 45
-
-  isoMap.addObject(sprite, 0, 0)
-
+  sprite.setPosition 15, 5
+  c = new Component
+  c.addChild sprite
+  isoMap.addObject(c, 0, 0)
 
   sprite2 = new Sprite charSpriteSheet
   sprite2.addAnimation {id: 'idle', row: 0, fps: 24}
   sprite2.play 'idle'
   sprite2.setPosition 160, 120
   sprite2.setSize 30, 45
-
-  isoMap.addObject(sprite2, 1, 0)
+  sprite2.setPosition 15, 5
+  c2 = new Component
+  c2.addChild sprite2
+  isoMap.addObject(c2, 1, 0)
 
   sprite3 = new Sprite charSpriteSheet
   sprite3.addAnimation {id: 'idle', row: 0, fps: 24}
   sprite3.play 'idle'
   sprite3.setPosition 285, 53
   sprite3.setSize 30, 45
-
-  isoMap.addObject(sprite3, 2, 0)
+  sprite3.setPosition 15, 5
+  c3 = new Component
+  c3.addChild sprite3
+  isoMap.addObject(c3, 2, 0)
 
   isoMap.position.x += 100

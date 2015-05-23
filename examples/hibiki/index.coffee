@@ -22,25 +22,17 @@ init = ->
   # add 'walk' from second row, both at 24 frames
   # per second.
   sprite = new Sprite spriteSheet
-  sprite.addAnimation {id: 'idle', row: 0, fps: 1}
+  sprite.addAnimation {id: 'idle', row: 0, fps: 18}
   sprite.addAnimation {id: 'walk', row: 1, fps: 24}
-  sprite.playOnce 'walk'
+  sprite.play 'idle'
   sprite.setPosition 100, 270
 
   # Add a mouse click listener to stop the animation
-  tween = null
   sprite.addListener 'click', ->
-    tween = sprite.animateTo {position: {x: sprite.position.x+200}}, 3000
-    tween.onComplete ( -> sprite.animateTo {position: {x:100}}, 3000)
-    console.log tween
     if sprite.isPlaying
       sprite.stop()
     else
       sprite.play()
-
-  sprite.addListener 'tweenFinished', (evt) ->
-    console.log evt.origin
-    console.log (evt.origin == tween)
 
   # Add sprite to the scene
   scene.addChild sprite
@@ -53,14 +45,5 @@ init = ->
     sprite.position.x += 1
     sprite.play 'walk'
   scene.addListener 'keyUp', ->
-    sprite.playOnce 'idle'
+    sprite.play 'idle'
 
-
-  a = {foo: {bar: 2, barr: 3}}
-  b = {foo: {bar: 5}}
-  console.log a
-  for k, v of b
-    console.log v
-    $.extend true, a[k], v
-
-  console.log a

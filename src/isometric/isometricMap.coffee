@@ -1,6 +1,7 @@
 class window.IsometricMap extends Component
   constructor: (opts) ->
     super()
+    console.log opts
     # TODO: error checking
     @opts             = opts
     @spriteSheet      = opts.spriteSheet
@@ -98,17 +99,17 @@ class window.IsometricMap extends Component
     child.update dt for child in @children
     obj.update dt for obj in @objLayer
 
-  #draw: (ctx) ->
-    #ctx.save()
-    #ctx.translate @position.x, @position.y
-    #for child in @children
-      #if child.visible then child.draw ctx
+  draw: (ctx) ->
+    ctx.save()
+    ctx.translate @position.x, @position.y
+    for child in @children
+      if child.visible then child.draw ctx
 
-    #@objLayer.sort ((a, b) ->
-      #a.position.y - b.position.y
-    #)
-    ##console.log @objLayer
-    #for obj in @objLayer
-      #if obj.visible then obj.draw ctx
+    @objLayer.sort ((a, b) ->
+      a.position.y - b.position.y
+    )
+    #console.log @objLayer
+    for obj in @objLayer
+      if obj.visible then obj.draw ctx
 
-    #ctx.restore()
+    ctx.restore()
