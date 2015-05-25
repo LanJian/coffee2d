@@ -99,7 +99,7 @@ enemy.addListener 'kill', (evt) -> if evt.target == enemy then enemy.die()
 Event.dispatchEvent {type: 'init'}
 ```
 
-# Shapes
+#### Shapes
 
 Rectangles and polygons are supported:
 
@@ -113,15 +113,15 @@ class Card extends Component
     @addChild new Polygon [[25, 0], [50, 40], [25, 80], [0, 40]], 'red'
 ```
 
-# Sprites
+#### Sprites
 
 Sprite can be created be created from a sprite sheet. You can assign different sets of animations to the sprite. Please refer to the [hibiki example](https://github.com/LanJian/coffee2d/blob/master/examples/hibiki/index.coffee) for details.
 
-# Isometric Map
+#### Isometric Map
 
 You can create isometric maps from a tileset. The tileset is a sprite sheet where each cell is a tile. Please refer to the [isometric map example](https://github.com/LanJian/coffee2d/blob/master/examples/isometric/index.coffee) for details
 
-# Tweening
+#### Tweening
 
 Create simple animations with tweening. You can tween any numeric property of a Component. You can provide a callback when creating the tween that will be invoked when the tween finishes. On completion, the tween will also create a 'tweenFinished' event:
 
