@@ -7,6 +7,7 @@ build:
 	cat lib/*.js >> build/engine-all.js
 	cp build/engine-all.js examples/hibiki/
 	cp build/engine-all.js examples/isometric/
+	cp build/engine-all.js examples/pong/
 	find build -mindepth 1 -maxdepth 1 ! -name engine-all.js -exec rm -rf {} +
 
 
