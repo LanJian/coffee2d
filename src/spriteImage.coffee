@@ -4,7 +4,6 @@ class window.SpriteImage extends Component
     super()
     @loaded = false
     @addListener 'spriteImageLoaded', @onSpriteImageLoaded.bind this
-    console.log 'spriteimage cons'
 
 
   hasSpriteSheet: (ss) ->

@@ -1,6 +1,8 @@
 $(document).ready ->
   init()
 
+# Request fullscreen. On Firefox, it will stretch the canvas to fit the screen,
+# on Chrome, the canvas is kept at same size.
 fullSreen = (canvas) ->
   if canvas.webkitRequestFullScreen
     canvas.webkitRequestFullScreen()
@@ -15,6 +17,9 @@ init = ->
 
   scene = new Scene canvas, 'black'
 
+  # Make a spritesheet for the tileset. We take 13 rows of cells. Each row has
+  # 10 cells, where each cell is 64x64.(There is more stuff at the bottom of
+  # the tileset image, but we won't be using those)
   spriteSheet = new SpriteSheet 'images/tileset.png', [
     {length: 10, cellWidth: 64, cellHeight: 64},
     {length: 10, cellWidth: 64, cellHeight: 64},
@@ -31,12 +36,18 @@ init = ->
     {length: 10, cellWidth: 64, cellHeight: 64}
   ]
 
+  # Make a 10x10 map and fill it with the first tile sprite from the tile set.
   map = []
   for i in [0..9]
     map[i] = []
     for j in [0..9]
+      # The first argument is the tile index in the tile set, the second
+      # argument is the number of pixels to shift up by to raise the height
+      # of a tile
       map[i][j] = new Tile spriteSheet, 1, 32
 
+
+  # Add additional height tiles
   map[7][5].addHeightIndex 54
 
   map[6][5].addHeightIndex 55
@@ -78,10 +89,14 @@ init = ->
     tiles            : map
     tileWidth        : 64
     tileHeight       : 64
+    # tileXOffset and tileYOffset are the number of pixels to move the
+    # next tile when tiling
     tileXOffset      : 32
     tileYOffset      : 16
+    # Bounding polygon for a tile
     tileBoundingPoly : poly
 
+  # Add the isometric map to the scene
   scene.addChild isoMap
 
   charSpriteSheet = new SpriteSheet 'images/hibiki.png', [
@@ -89,17 +104,17 @@ init = ->
     {length: 12, cellWidth: 67, cellHeight: 101}
   ]
 
-  # Create a sprite from the sprite sheet, add 'idle'
-  # animation from first row of the spritesheet, and
-  # add 'walk' from second row, both at 24 frames
-  # per second.
+  # Create a sprite
   sprite = new Sprite charSpriteSheet
   sprite.addAnimation {id: 'idle', row: 0, fps: 24}
   sprite.play 'idle'
   sprite.setSize 30, 45
+  # Add the sprite to a Component so we can set its position. This way we can
+  # center the sprite in the middle of a tile
   sprite.setPosition 15, 5
   c = new Component
   c.addChild sprite
+  # Add the object to the isometric map at the specified coordinates
   isoMap.addObject(c, 0, 0)
 
   sprite2 = new Sprite charSpriteSheet
@@ -122,4 +137,5 @@ init = ->
   c3.addChild sprite3
   isoMap.addObject(c3, 2, 0)
 
+  # Move the map towards the center
   isoMap.position.x += 100

@@ -94,7 +94,6 @@ class window.Sprite extends Component
 
 
   stop: ->
-    console.log 'stop anim'
     @isPlaying = false
     evt =
       type: 'spriteStopAnim'

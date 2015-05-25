@@ -1,7 +1,6 @@
 class window.IsometricMap extends Component
   constructor: (opts) ->
     super()
-    console.log opts
     # TODO: error checking
     @opts             = opts
     @spriteSheet      = opts.spriteSheet
@@ -78,10 +77,7 @@ class window.IsometricMap extends Component
     y = i*@tileYOffset + j*@tileYOffset
     obj.setPosition x, y
     @objLayer.push obj
-    #@objLayer.sort ((a, b) ->
-      #a.position.y - b.position.y
-    #)
-    #console.log @objLayer
+
 
   # Overriden functions
   update: (dt) ->
@@ -108,7 +104,6 @@ class window.IsometricMap extends Component
     @objLayer.sort ((a, b) ->
       a.position.y - b.position.y
     )
-    #console.log @objLayer
     for obj in @objLayer
       if obj.visible then obj.draw ctx
 

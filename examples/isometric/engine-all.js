@@ -578,7 +578,6 @@
       SpriteImage.__super__.constructor.call(this);
       this.loaded = false;
       this.addListener('spriteImageLoaded', this.onSpriteImageLoaded.bind(this));
-      console.log('spriteimage cons');
     }
 
     SpriteImage.prototype.hasSpriteSheet = function(ss) {
@@ -742,7 +741,6 @@
 
     Sprite.prototype.stop = function() {
       var evt;
-      console.log('stop anim');
       this.isPlaying = false;
       evt = {
         type: 'spriteStopAnim',
@@ -974,7 +972,6 @@
 
     function IsometricMap(opts) {
       IsometricMap.__super__.constructor.call(this);
-      console.log(opts);
       this.opts = opts;
       this.spriteSheet = opts.spriteSheet;
       this.tiles = opts.tiles;
