@@ -11,7 +11,7 @@ Coffee2D currently provides:
 * Tweening
 * Isometric maps
 
-To get started, check out the code in the [example](https://github.com/LanJian/coffee2d/tree/master/example) folder.
+To get started, check out the code in the [examples](https://github.com/LanJian/coffee2d/tree/master/examples) folder.
 
 To build, run `make clean && make build`. This creates the file `build/engine-all.js`, which can be dropped into any project that wants to use Coffee2D
 
