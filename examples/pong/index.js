@@ -66,9 +66,9 @@
       }
       diff = this.ball.position.y + this.ball.size.h / 2.0 - (this.compPaddle.position.y + this.compPaddle.size.h / 2.0);
       if (diff > 5) {
-        this.compPaddle.position.y += 8;
+        this.compPaddle.position.y += 5;
       } else if (diff < -5) {
-        this.compPaddle.position.y -= 8;
+        this.compPaddle.position.y -= 5;
       }
       dx = this.vx * dt;
       dy = this.vy * dt;

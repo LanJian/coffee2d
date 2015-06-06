@@ -62,9 +62,9 @@ class Pong extends Component
     diff = @ball.position.y + @ball.size.h/2.0 -
       (@compPaddle.position.y + @compPaddle.size.h/2.0)
     if diff > 5
-      @compPaddle.position.y += 8
+      @compPaddle.position.y += 5
     else if diff < -5
-      @compPaddle.position.y -= 8
+      @compPaddle.position.y -= 5
 
     # get the delta x and y
     dx = @vx * dt
