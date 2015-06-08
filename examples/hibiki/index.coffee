@@ -18,9 +18,9 @@ init = ->
   ]
 
   # Create a sprite from the sprite sheet, add 'idle'
-  # animation from first row of the spritesheet, and
-  # add 'walk' from second row, both at 24 frames
-  # per second.
+  # animation from first row of the spritesheet at 18 
+  # frames per second, and add 'walk' from second row,
+  # at 24 frames per second.
   sprite = new Sprite spriteSheet
   sprite.addAnimation {id: 'idle', row: 0, fps: 18}
   sprite.addAnimation {id: 'walk', row: 1, fps: 24}
